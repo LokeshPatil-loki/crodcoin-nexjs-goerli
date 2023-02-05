@@ -1,17 +1,34 @@
 import React from "react";
 import campaignFactory from "../etherium/factory";
+import { Card, Button } from "semantic-ui-react";
+import Layout from "@/components/Layout";
 
-function CampaignIndex({campaigns}) {
-  console.log("Campaigns:",campaigns);
+const CampaignIndex = ({ campaigns }) => {
+  const renderCampaigns = () => {
+    const items = campaigns.map((address) => {
+      return {
+        header: address,
+        description: <a>View Campaign</a>,
+        fluid: true,
+      };
+    });
+    return <Card.Group items={items} />;
+  };
+
   return (
-    <h1>Campaign Index {campaigns[0]}</h1>
-  )
-}
+    <Layout>
+      <div>
+        <h3>Open Campaigns</h3>
+        <Button floated="right" primary content="Create Campaign" icon="add" />
+        {renderCampaigns()}
+      </div>
+    </Layout>
+  );
+};
 
 CampaignIndex.getInitialProps = async (ctx) => {
   const campaigns = await campaignFactory.methods.getDeployedCampaign().call();
-  return { campaigns }
-}
+  return { campaigns };
+};
 
-
-export default CampaignIndex
+export default CampaignIndex;
