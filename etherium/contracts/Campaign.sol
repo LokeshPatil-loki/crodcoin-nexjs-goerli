@@ -25,7 +25,7 @@ contract Campaign{
         mapping(address => bool) approvals;
     }
 
-    uint public numRequests;
+    uint public requestsCount;
     mapping (uint => Request) public requests;
     address public manager;
     uint public minimumContribution;
@@ -49,7 +49,7 @@ contract Campaign{
     }
 
     function createRequest(string memory description, uint value, address recipient) public restricted {
-        Request storage r = requests[numRequests++];
+        Request storage r = requests[requestsCount++];
         r.description = description;
         r.value = value;
         r.recipient = recipient;
@@ -73,6 +73,16 @@ contract Campaign{
 
         payable(request.recipient).transfer(request.value);
         request.complete = true;
+    }
+
+    function getSummary() public view returns(uint, uint, uint, uint, address) {
+        return (
+            minimumContribution,
+            address(this).balance,
+            requestsCount,
+            approversCount,
+            manager
+        );
     }
 
 }
