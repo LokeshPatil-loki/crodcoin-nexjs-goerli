@@ -57,7 +57,7 @@ describe("Campagins", () => {
 
   it("allows manager to make a payment request", async () => {
     await campaign.methods.contribute().send({from: accounts[1], value: "1000"});
-    let requestIndex = await campaign.methods.numRequests().call();
+    let requestIndex = await campaign.methods.requestsCount().call();
     await campaign.methods.createRequest("Buy a house", "500",accounts[3]).send({from: accounts[0], gas:"1000000"});
     const request = await campaign.methods.requests(requestIndex).call();
     assert.equal("Buy a house", request.description);
@@ -70,7 +70,7 @@ describe("Campagins", () => {
 
     const numberOfContributors = await campaign.methods.approversCount().call();
     assert.equal(3, numberOfContributors,"Number of attributors is not right");
-    let requestIndex = await campaign.methods.numRequests().call();
+    let requestIndex = await campaign.methods.requestsCount().call();
     await campaign.methods.createRequest("A", web3.utils.toWei("5", 'ether'),accounts[4]).send({from: accounts[0], gas:"1000000"});
 
     await campaign.methods.approveRequest(requestIndex).send({from: accounts[1], gas: "1000000"});

@@ -2,13 +2,16 @@ import React from "react";
 import campaignFactory from "../etherium/factory";
 import { Card, Button } from "semantic-ui-react";
 import Layout from "@/components/Layout";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const CampaignIndex = ({ campaigns }) => {
+  const router = useRouter();
   const renderCampaigns = () => {
     const items = campaigns.map((address) => {
       return {
         header: address,
-        description: <a>View Campaign</a>,
+        description: <Link href={`/campaigns/${address}`}>View Campaign</Link>,
         fluid: true,
       };
     });
@@ -19,7 +22,9 @@ const CampaignIndex = ({ campaigns }) => {
     <Layout>
       <div>
         <h3>Open Campaigns</h3>
-        <Button floated="right" primary content="Create Campaign" icon="add" />
+        <Link href="/campaigns/new">
+          <Button floated="right" primary content="Create Campaign" icon="add" />
+        </Link>
         {renderCampaigns()}
       </div>
     </Layout>
