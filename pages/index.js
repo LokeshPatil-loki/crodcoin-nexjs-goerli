@@ -13,6 +13,7 @@ const CampaignIndex = ({ campaigns }) => {
         header: address,
         description: <Link href={`/campaigns/${address}`}>View Campaign</Link>,
         fluid: true,
+        style: { overflowWrap: "break-word" }
       };
     });
     return <Card.Group items={items} />;
